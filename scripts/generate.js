@@ -163,6 +163,7 @@ function generateSitemap(posts) {
  */
 function generatePostHTML(post) {
     const postUrl = `${CONFIG.BLOG_URL}/#${post.slug}`;
+    const staticUrl = `${CONFIG.BLOG_URL}/posts/${post.slug}.html`;
     const ogImage = post.preview
         ? `${CONFIG.BLOG_URL}/${post.preview}`
         : `${CONFIG.BLOG_URL}/assets/images/og-image.png`;
@@ -180,11 +181,11 @@ function generatePostHTML(post) {
     <meta name="robots" content="index, follow">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="${postUrl}">
+    <link rel="canonical" href="${staticUrl}">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
-    <meta property="og:url" content="${postUrl}">
+    <meta property="og:url" content="${staticUrl}">
     <meta property="og:title" content="${escapeXML(post.title)}">
     <meta property="og:description" content="${escapeXML(post.excerpt)}">
     <meta property="og:image" content="${ogImage}">
@@ -198,7 +199,7 @@ function generatePostHTML(post) {
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="${postUrl}">
+    <meta name="twitter:url" content="${staticUrl}">
     <meta name="twitter:title" content="${escapeXML(post.title)}">
     <meta name="twitter:description" content="${escapeXML(post.excerpt)}">
     <meta name="twitter:image" content="${ogImage}">
