@@ -10,7 +10,7 @@ const path = require('path');
 
 // Configuration
 const CONFIG = {
-    BLOG_URL: 'https://sadcadf.github.io',
+    BLOG_URL: 'https://sadcadf.github.io/notitled.github.io',
     BLOG_NAME: 'Notitled',
     BLOG_DESCRIPTION: 'Личный минималистичный блог о технологиях, разработке и творчестве',
     BLOG_LANGUAGE: 'ru-RU',
@@ -163,10 +163,10 @@ function generateSitemap(posts) {
  */
 function generatePostHTML(post) {
     const postUrl = `${CONFIG.BLOG_URL}/#${post.slug}`;
-    const ogImage = post.preview 
+    const ogImage = post.preview
         ? `${CONFIG.BLOG_URL}/${post.preview}`
         : `${CONFIG.BLOG_URL}/assets/images/og-image.png`;
-    
+
     return `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -254,7 +254,7 @@ function generatePostHTML(post) {
  */
 function generatePostPages(posts) {
     const postsDir = path.join(__dirname, '..', 'posts');
-    
+
     posts.forEach(post => {
         const html = generatePostHTML(post);
         const outputPath = path.join(postsDir, `${post.slug}.html`);
