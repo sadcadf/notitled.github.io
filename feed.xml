@@ -5,7 +5,7 @@
         <link>https://sadcadf.github.io</link>
         <description>Личный минималистичный блог о технологиях, разработке и творчестве</description>
         <language>ru-RU</language>
-        <lastBuildDate>Wed, 20 Nov 2025 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 20 Nov 2025 00:00:00 GMT</lastBuildDate>
         <atom:link href="https://sadcadf.github.io/feed.xml" rel="self" type="application/rss+xml"/>
         
         <item>
@@ -13,15 +13,20 @@
             <link>https://sadcadf.github.io/#first-post</link>
             <guid isPermaLink="false">first-post</guid>
             <description>Это мой первый пост в новом минималистичном блоге. Здесь я расскажу о том, как легко добавлять новые статьи через Markdown файлы.</description>
-            <pubDate>Wed, 20 Nov 2025 00:00:00 GMT</pubDate>
+            <pubDate>Thu, 20 Nov 2025 00:00:00 GMT</pubDate>
+            <category>блог</category>
+            <category>начало</category>
         </item>
-        
+
         <item>
             <title>Руководство по Markdown</title>
             <link>https://sadcadf.github.io/#markdown-guide</link>
             <guid isPermaLink="false">markdown-guide</guid>
             <description>Краткая шпаргалка по синтаксису Markdown для написания постов в блоге. Заголовки, списки, ссылки, код и многое другое.</description>
-            <pubDate>Tue, 19 Nov 2025 00:00:00 GMT</pubDate>
+            <pubDate>Wed, 19 Nov 2025 00:00:00 GMT</pubDate>
+            <category>markdown</category>
+            <category>туториал</category>
+            <category>разработка</category>
         </item>
     </channel>
 </rss>

@@ -1,11 +1,20 @@
-const CACHE_NAME = 'notitled-v1';
+const CACHE_NAME = 'notitled-v3';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/assets/css/style.min.css',
     '/assets/css/style.css',
-    '/assets/js/app.min.js',
     '/assets/js/app.js',
+    '/assets/js/config.js',
+    '/assets/js/utils.js',
+    '/assets/js/cache.js',
+    '/assets/js/theme.js',
+    '/assets/js/router.js',
+    '/assets/js/api.js',
+    '/assets/js/templates.js',
+    '/assets/js/seo.js',
+    '/assets/js/tags.js',
+    '/assets/js/pagination.js',
+    '/assets/js/toc.js',
     '/posts/index.json',
     '/assets/favicon.svg'
 ];
