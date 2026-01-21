@@ -31,7 +31,7 @@ To add a new post, you just need to:
 
 I plan to publish posts regularly on various topics. Stay tuned!
 
-![Workspace](posts/images/first-post-preview.jpg)
+![Workspace](posts/images/423235.png)
 
 > Create content that inspires!
 
