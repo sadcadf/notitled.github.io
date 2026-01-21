@@ -40,13 +40,10 @@
     
     <!-- Redirect to SPA with language preservation -->
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const lang = urlParams.get('lang');
-        const postUrl = 'https://sadcadf.github.io/notitled.github.io/#first-post' + (lang ? '?lang=' + lang : '');
-        window.location.replace(postUrl);
+        window.location.replace('https://sadcadf.github.io/notitled.github.io/#first-post?lang=ru');
     </script>
     <noscript>
-        <meta http-equiv="refresh" content="0;url=https://sadcadf.github.io/notitled.github.io/#first-post">
+        <meta http-equiv="refresh" content="0;url=https://sadcadf.github.io/notitled.github.io/#first-post?lang=ru">
     </noscript>
     
     <style>
@@ -54,6 +51,11 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #1a1a1a;
+            color: #e8e8e8;
         }
         .redirect-message {
             text-align: center;
@@ -72,7 +74,7 @@
     <div class="redirect-message">
         <h1>Первый пост в блоге</h1>
         <p>Перенаправление...</p>
-        <p><a href="https://sadcadf.github.io/notitled.github.io/#first-post">Нажмите здесь, если перенаправление не работает</a></p>
+        <p><a href="https://sadcadf.github.io/notitled.github.io/#first-post?lang=ru">Нажмите здесь, если перенаправление не работает</a></p>
     </div>
 </body>
 </html>

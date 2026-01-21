@@ -21,19 +21,22 @@ const CONFIG = {
 };
 
 // Paths
-const POSTS_INDEX = path.join(__dirname, '..', 'posts', 'index.json');
+const POSTS_INDEX_RU = path.join(__dirname, '..', 'posts', 'index.json');
+const POSTS_INDEX_EN = path.join(__dirname, '..', 'posts', 'index.en.json');
 const FEED_OUTPUT = path.join(__dirname, '..', 'feed.xml');
 const SITEMAP_OUTPUT = path.join(__dirname, '..', 'sitemap.xml');
 
 /**
  * Read posts from index.json
  */
-function readPosts() {
+function readPosts(lang = 'ru') {
+    const indexPath = lang === 'en' ? POSTS_INDEX_EN : POSTS_INDEX_RU;
     try {
-        const data = fs.readFileSync(POSTS_INDEX, 'utf-8');
+        if (!fs.existsSync(indexPath)) return [];
+        const data = fs.readFileSync(indexPath, 'utf-8');
         return JSON.parse(data);
     } catch (error) {
-        console.error('Error reading posts:', error.message);
+        console.error(`Error reading ${lang} posts:`, error.message);
         return [];
     }
 }
@@ -162,17 +165,25 @@ function generateSitemap(posts) {
 /**
  * Generate static HTML page for a post (for social media previews)
  * @param {Object} post - Post data
+ * @param {string} lang - 'ru' or 'en'
  * @returns {string} HTML content
  */
-function generatePostHTML(post) {
-    const postUrl = `${CONFIG.BLOG_URL}/#${post.slug}`;
-    const staticUrl = `${CONFIG.BLOG_URL}/posts/${post.slug}.html`;
+function generatePostHTML(post, lang = 'ru') {
+    const postUrl = `${CONFIG.BLOG_URL}/#${post.slug}?lang=${lang}`;
+    const staticSuffix = lang === 'en' ? '.en' : '';
+    const staticUrl = `${CONFIG.BLOG_URL}/posts/${post.slug}${staticSuffix}.html`;
     const ogImage = post.preview
         ? `${CONFIG.BLOG_URL}/${post.preview}`
         : `${CONFIG.BLOG_URL}/assets/images/og-image.png`;
 
+    const labels = {
+        ru: { redirect: 'Перенаправление...', link: 'Нажмите здесь, если перенаправление не работает' },
+        en: { redirect: 'Redirecting...', link: 'Click here if redirection does not work' }
+    };
+    const t = labels[lang] || labels.en;
+
     return `<!DOCTYPE html>
-<html lang="ru">
+<html lang="${lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -195,7 +206,7 @@ function generatePostHTML(post) {
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="${CONFIG.BLOG_NAME}">
-    <meta property="og:locale" content="${CONFIG.BLOG_LANGUAGE.replace('-', '_')}">
+    <meta property="og:locale" content="${lang === 'ru' ? 'ru_RU' : 'en_US'}">
     <meta property="article:published_time" content="${post.date}">
     <meta property="article:author" content="${CONFIG.AUTHOR}">
     ${post.tags ? post.tags.map(tag => `<meta property="article:tag" content="${escapeXML(tag)}">`).join('\n    ') : ''}
@@ -212,10 +223,7 @@ function generatePostHTML(post) {
     
     <!-- Redirect to SPA with language preservation -->
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const lang = urlParams.get('lang');
-        const postUrl = '${postUrl}' + (lang ? '?lang=' + lang : '');
-        window.location.replace(postUrl);
+        window.location.replace('${postUrl}');
     </script>
     <noscript>
         <meta http-equiv="refresh" content="0;url=${postUrl}">
@@ -226,6 +234,11 @@ function generatePostHTML(post) {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #1a1a1a;
+            color: #e8e8e8;
         }
         .redirect-message {
             text-align: center;
@@ -243,25 +256,27 @@ function generatePostHTML(post) {
 <body>
     <div class="redirect-message">
         <h1>${escapeXML(post.title)}</h1>
-        <p>Перенаправление...</p>
-        <p><a href="${postUrl}">Нажмите здесь, если перенаправление не работает</a></p>
+        <p>${t.redirect}</p>
+        <p><a href="${postUrl}">${t.link}</a></p>
     </div>
 </body>
 </html>`;
 }
 
 /**
- * Generate static HTML pages for all posts
+ * Generate static HTML pages for all posts in a specific language
  * @param {Array} posts - Array of posts
+ * @param {string} lang - 'ru' or 'en'
  */
-function generatePostPages(posts) {
+function generatePostPages(posts, lang = 'ru') {
     const postsDir = path.join(__dirname, '..', 'posts');
+    const suffix = lang === 'en' ? '.en' : '';
 
     posts.forEach(post => {
-        const html = generatePostHTML(post);
-        const outputPath = path.join(postsDir, `${post.slug}.html`);
+        const html = generatePostHTML(post, lang);
+        const outputPath = path.join(postsDir, `${post.slug}${suffix}.html`);
         fs.writeFileSync(outputPath, html, 'utf-8');
-        console.log(`✅ Generated: posts/${post.slug}.html`);
+        console.log(`✅ Generated: posts/${post.slug}${suffix}.html`);
     });
 }
 
@@ -271,22 +286,25 @@ function generatePostPages(posts) {
 function main() {
     console.log('📝 Generating blog files...\n');
 
-    // Read posts
-    const posts = readPosts();
-    console.log(`Found ${posts.length} posts`);
+    // Read posts for both languages
+    const postsRu = readPosts('ru');
+    const postsEn = readPosts('en');
 
-    // Generate RSS
-    const rss = generateRSS(posts);
+    console.log(`Found ${postsRu.length} Russian posts and ${postsEn.length} English posts`);
+
+    // Generate RSS (using RU as default for now, could be split later if needed)
+    const rss = generateRSS(postsRu);
     fs.writeFileSync(FEED_OUTPUT, rss, 'utf-8');
     console.log(`✅ Generated: feed.xml`);
 
-    // Generate Sitemap
-    const sitemap = generateSitemap(posts);
+    // Generate Sitemap (combine unique slugs)
+    const sitemap = generateSitemap(postsRu);
     fs.writeFileSync(SITEMAP_OUTPUT, sitemap, 'utf-8');
     console.log(`✅ Generated: sitemap.xml`);
 
-    // Generate static HTML pages for posts (for social media previews)
-    generatePostPages(posts);
+    // Generate static HTML pages for both languages
+    generatePostPages(postsRu, 'ru');
+    generatePostPages(postsEn, 'en');
 
     console.log('\n🎉 Done!');
 }

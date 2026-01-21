@@ -48,7 +48,8 @@ export class ShareManager {
      */
     getShareUrl(slug) {
         const lang = i18n.getLanguage();
-        return `${BLOG_INFO.url}/posts/${slug}.html?lang=${lang}`;
+        const suffix = lang === 'en' ? '.en' : '';
+        return `${BLOG_INFO.url}/posts/${slug}${suffix}.html`;
     }
 
     /**
