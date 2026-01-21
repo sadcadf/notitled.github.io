@@ -210,9 +210,12 @@ function generatePostHTML(post) {
     <!-- Telegram specific -->
     <meta property="og:image:alt" content="${escapeXML(post.title)}">
     
-    <!-- Redirect to SPA -->
+    <!-- Redirect to SPA with language preservation -->
     <script>
-        window.location.replace('${postUrl}');
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang');
+        const postUrl = '${postUrl}' + (lang ? '?lang=' + lang : '');
+        window.location.replace(postUrl);
     </script>
     <noscript>
         <meta http-equiv="refresh" content="0;url=${postUrl}">
@@ -223,11 +226,6 @@ function generatePostHTML(post) {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #1a1a1a;
-            color: #e8e8e8;
         }
         .redirect-message {
             text-align: center;

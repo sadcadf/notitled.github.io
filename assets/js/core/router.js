@@ -54,7 +54,9 @@ export class Router {
      * Handle initial page load route from URL hash
      */
     handleInitialRoute() {
-        const hash = window.location.hash.slice(1);
+        const path = window.location.hash.slice(1);
+        const [hash, queryString] = path.split('?');
+
         if (hash) {
             // Check for page route: page/2
             if (hash.startsWith('page/')) {

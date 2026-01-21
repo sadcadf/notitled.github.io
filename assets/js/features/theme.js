@@ -20,8 +20,8 @@ export class ThemeManager {
         if (savedTheme) {
             document.documentElement.setAttribute('data-theme', savedTheme);
         } else {
-            // Default to light theme
-            document.documentElement.setAttribute('data-theme', 'light');
+            // Default to dark theme
+            document.documentElement.setAttribute('data-theme', 'dark');
         }
     }
 

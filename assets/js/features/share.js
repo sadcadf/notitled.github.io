@@ -47,7 +47,8 @@ export class ShareManager {
      * @returns {string} Shareable URL
      */
     getShareUrl(slug) {
-        return `${BLOG_INFO.url}/posts/${slug}.html`;
+        const lang = i18n.getLanguage();
+        return `${BLOG_INFO.url}/posts/${slug}.html?lang=${lang}`;
     }
 
     /**

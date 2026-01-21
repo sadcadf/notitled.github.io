@@ -5,11 +5,24 @@ import { TRANSLATIONS } from '../utils/translations.js';
  */
 export class LanguageManager {
     constructor() {
-        this.currentLang = localStorage.getItem('language') || 'ru';
+        this.currentLang = localStorage.getItem('language') || 'en';
         this.init();
     }
 
     init() {
+        // Handle language from URL parameter (?lang=en or ?lang=ru)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+
+        if (urlLang && (urlLang === 'ru' || urlLang === 'en')) {
+            this.currentLang = urlLang;
+            localStorage.setItem('language', urlLang);
+
+            // Clean up URL if needed (optional, but keeps it tidy)
+            // const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.hash;
+            // window.history.replaceState({path:cleanUrl}, '', cleanUrl);
+        }
+
         document.documentElement.lang = this.currentLang === 'ru' ? 'ru' : 'en';
     }
 

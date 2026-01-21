@@ -110,7 +110,8 @@ class Blog {
         // Update language toggle text
         const langToggleText = document.querySelector('.lang-text');
         if (langToggleText) {
-            langToggleText.textContent = i18n.getLanguage().toUpperCase();
+            const lang = i18n.getLanguage();
+            langToggleText.textContent = lang === 'ru' ? 'РУ' : 'EN';
         }
 
         // Update footer
@@ -222,7 +223,6 @@ class Blog {
         const { items, pagination } = this.paginator.paginate(posts, page);
         return renderPostsList(items, pagination);
     }
-
 
     /**
      * Render post view
