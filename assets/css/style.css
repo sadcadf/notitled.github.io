@@ -643,7 +643,9 @@ body {
 
 .post-content img {
     max-width: 100%;
+    aspect-ratio: 16 / 9;
     height: auto;
+    object-fit: cover;
     border-radius: var(--border-radius);
     margin: var(--spacing-lg) 0;
     display: block;
