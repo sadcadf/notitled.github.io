@@ -154,8 +154,6 @@ export function renderPost(post, content, readTime, tocHTML = '') {
 export function renderSearchPage() {
     return `
         <div class="search-page">
-            <h1>${i18n.t('search.title')}</h1>
-            
             <div class="search-container-page">
                 <input type="search" 
                        class="search-input" 
@@ -212,8 +210,6 @@ export function renderSearchResults(results = [], query) {
 export function renderContactsPage() {
     return `
         <div class="contacts-page">
-            <h1>${i18n.t('contacts.title')}</h1>
-            
             <div class="contact-item">
                 <label>Email</label>
                 <div class="contact-value">
