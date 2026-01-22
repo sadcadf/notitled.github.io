@@ -37,8 +37,8 @@ export function renderPostCard(post, index = 0) {
         <article class="post-card" data-slug="${post.slug}" style="animation-delay: ${index * CONFIG.ANIMATION_DELAY_INCREMENT}ms">
             ${previewHTML}
             <div class="post-card-content">
-                <div class="post-card-date">${formatDate(post.date)}</div>
                 <h2 class="post-card-title">${escapeHtml(post.title)}</h2>
+                <div class="post-card-date">${formatDate(post.date)}</div>
                 <p class="post-card-excerpt">${escapeHtml(post.excerpt)}</p>
                 <div class="post-card-meta">
                     <span class="post-card-read-more">${i18n.t('post.readMore')}</span>

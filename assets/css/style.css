@@ -51,7 +51,7 @@ body {
 
 .main {
     flex: 1;
-    margin: var(--spacing-2xl) 0;
+    margin: var(--spacing-lg) 0;
 }
 
 /* ========================================
