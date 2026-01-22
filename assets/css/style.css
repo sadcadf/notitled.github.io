@@ -58,7 +58,7 @@ body {
    HEADER
    ======================================== */
 .header {
-    padding: var(--spacing-lg) 0;
+    padding: var(--spacing-lg) 0 0;
     background-color: var(--bg-primary);
     transition: background-color var(--transition-base);
 }
