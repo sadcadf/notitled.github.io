@@ -17,7 +17,7 @@ export const CONFIG = {
 export const BLOG_INFO = {
     name: 'Notitled',
     title: 'Notitled - Личный блог',
-    url: 'https://sadcadf.github.io/notitled.github.io',
+    url: 'https://notitled.github.io',
     description: 'Личный минималистичный блог о технологиях, разработке и творчестве',
     language: 'ru-RU',
     author: 'Notitled'
