@@ -1130,31 +1130,41 @@ body {
         --spacing-2xl: 2.5rem;
     }
 
-    /* Header: logo + nav inline, toggles stay right */
+    /* Header: keep everything on one line */
     .header-content {
         flex-wrap: nowrap;
         gap: var(--spacing-xs);
     }
 
+    .logo {
+        font-size: 1.1rem;
+        margin-right: auto;
+    }
+
     .nav {
         order: 0;
         width: auto;
-        gap: var(--spacing-sm);
+        gap: 2px;
     }
 
     .nav-link {
-        font-size: var(--font-size-sm);
-        padding: 6px 10px;
+        font-size: 0.8rem;
+        padding: 5px 8px;
     }
 
-    .logo {
-        font-size: 1.25rem;
+    .header-actions {
+        gap: 4px;
     }
 
-    /* Post header: share button inline with date */
+    .theme-toggle,
+    .reading-toggle {
+        width: 34px;
+        height: 34px;
+    }
+
+    /* Post header: share inline with title */
     .post-header {
-        flex-direction: column;
-        gap: 0;
+        position: relative;
     }
 
     .post-header-side {
@@ -1162,17 +1172,7 @@ body {
         right: 0;
         top: 0;
         min-width: auto;
-        padding-top: 0;
-    }
-
-    .post-header-main {
-        position: relative;
-    }
-
-    .post-header-actions {
-        position: absolute;
-        right: 0;
-        top: 0.5rem;
+        padding-top: 0.2rem;
     }
 
     .search-container {
