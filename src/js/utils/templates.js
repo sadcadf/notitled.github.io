@@ -117,7 +117,6 @@ export function renderPost(post, content, readTime, tocHTML = '') {
 
     return `
         <article class="post-view">
-            <a href="#" class="back-button">${t('post.back')}</a>
             <header class="post-header">
                 <div class="post-header-main">
                     <h1 class="post-title">${escapeHtml(post.title)}</h1>
