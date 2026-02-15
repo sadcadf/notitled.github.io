@@ -5,7 +5,7 @@ import { TRANSLATIONS } from '../utils/translations.js';
  */
 export class LanguageManager {
     constructor() {
-        this.currentLang = localStorage.getItem('language') || 'en';
+        this.currentLang = localStorage.getItem('language') || 'ru';
         this.init();
     }
 
@@ -24,6 +24,14 @@ export class LanguageManager {
         }
 
         document.documentElement.lang = this.currentLang === 'ru' ? 'ru' : 'en';
+
+        // Update lang toggle aria-label
+        const langToggle = document.getElementById('lang-toggle');
+        if (langToggle) {
+            langToggle.setAttribute('aria-label',
+                this.currentLang === 'ru' ? 'Switch to English' : 'Переключить на русский'
+            );
+        }
     }
 
     /**

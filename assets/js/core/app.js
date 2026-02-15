@@ -210,6 +210,13 @@ class Blog {
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Focus management for accessibility
+            const heading = this.app.querySelector('h1, h2');
+            if (heading) {
+                heading.setAttribute('tabindex', '-1');
+                heading.focus({ preventScroll: true });
+            }
         });
     }
 
@@ -305,13 +312,19 @@ class Blog {
     setupPostCardListeners() {
         const cards = this.app ? this.app.querySelectorAll('.post-card') : [];
         cards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                const target = /** @type {HTMLElement} */ (e.target);
-
+            const navigate = () => {
                 const htmlCard = /** @type {HTMLElement} */ (card);
                 const slug = htmlCard.dataset.slug;
                 if (slug) {
                     this.router.navigateTo('post', slug);
+                }
+            };
+
+            card.addEventListener('click', navigate);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate();
                 }
             });
         });

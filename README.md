@@ -107,7 +107,7 @@ python3 -m http.server 8000
 
 Откройте `assets/js/app.js` → найдите `renderContacts()` → измените ссылки.
 
-Подробнее: [CONTACTS_GUIDE.md](CONTACTS_GUIDE.md)
+Подробнее: [CONTACTS_GUIDE.md](docs/CONTACTS_GUIDE.md)
 
 ### Логотип и название
 
@@ -139,15 +139,15 @@ git push origin main
 npx vercel --prod
 ```
 
-📋 **Полный чеклист**: [PRODUCTION_CHECKLIST.md](PRODUCTION_CHECKLIST.md)
+📋 **Полный чеклист**: [PRODUCTION_CHECKLIST.md](docs/PRODUCTION_CHECKLIST.md)
 
 ## 📝 Документация
 
-- **[QUICKSTART.md](QUICKSTART.md)** — быстрая шпаргалка
-- **[NEW_FEATURES.md](NEW_FEATURES.md)** — обзор всех новых возможностей ✨
-- **[IMAGES_GUIDE.md](IMAGES_GUIDE.md)** — как работать с изображениями
-- **[CONTACTS_GUIDE.md](CONTACTS_GUIDE.md)** — настройка контактов
-- **[PRODUCTION_CHECKLIST.md](PRODUCTION_CHECKLIST.md)** — чеклист перед публикацией
+- **[QUICKSTART.md](docs/QUICKSTART.md)** — быстрая шпаргалка
+- **[NEW_FEATURES.md](docs/NEW_FEATURES.md)** — обзор всех новых возможностей ✨
+- **[IMAGES_GUIDE.md](docs/IMAGES_GUIDE.md)** — как работать с изображениями
+- **[CONTACTS_GUIDE.md](docs/CONTACTS_GUIDE.md)** — настройка контактов
+- **[PRODUCTION_CHECKLIST.md](docs/PRODUCTION_CHECKLIST.md)** — чеклист перед публикацией
 
 ## 🆕 Что нового в v2.0
 
@@ -162,7 +162,7 @@ npx vercel --prod
 - ✅ Анимации появления карточек
 - ✅ Улучшенная типографика
 
-Полный список: [NEW_FEATURES.md](NEW_FEATURES.md)
+Полный список: [NEW_FEATURES.md](docs/NEW_FEATURES.md)
 
 ## 📊 Производительность
 
@@ -238,9 +238,9 @@ MIT — используйте как хотите!
 ## 🆘 Поддержка
 
 Вопросы? Смотрите документацию:
-- [NEW_FEATURES.md](NEW_FEATURES.md) — обзор новых возможностей
-- [QUICKSTART.md](QUICKSTART.md) — быстрый старт
-- [PRODUCTION_CHECKLIST.md](PRODUCTION_CHECKLIST.md) — перед публикацией
+- [NEW_FEATURES.md](docs/NEW_FEATURES.md) — обзор новых возможностей
+- [QUICKSTART.md](docs/QUICKSTART.md) — быстрый старт
+- [PRODUCTION_CHECKLIST.md](docs/PRODUCTION_CHECKLIST.md) — перед публикацией
 
 ---
 

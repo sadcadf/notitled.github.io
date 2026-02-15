@@ -15,6 +15,20 @@ export class PostsAPI {
         this.cache = new CacheManager('blog_post_');
         this.posts = [];
         this.allPosts = [];
+        /** @type {AbortController|null} */
+        this.currentController = null;
+    }
+
+    /**
+     * Abort any in-flight request and create a new AbortController
+     * @returns {AbortSignal}
+     */
+    _newSignal() {
+        if (this.currentController) {
+            this.currentController.abort();
+        }
+        this.currentController = new AbortController();
+        return this.currentController.signal;
     }
 
     /**
@@ -23,14 +37,15 @@ export class PostsAPI {
      */
     async loadPosts() {
         try {
+            const signal = this._newSignal();
             const lang = i18n.getLanguage();
             const filename = lang === 'en' ? 'index.en.json' : 'index.json';
-            const response = await fetch(`posts/${filename}`);
+            const response = await fetch(`posts/${filename}`, { signal });
 
             if (!response.ok) {
                 // Fallback to default index if localized version is missing
                 if (lang !== 'ru') {
-                    const fallbackResponse = await fetch('posts/index.json');
+                    const fallbackResponse = await fetch('posts/index.json', { signal });
                     if (fallbackResponse.ok) {
                         this.allPosts = await fallbackResponse.json();
                         this.posts = [...this.allPosts];
@@ -70,14 +85,16 @@ export class PostsAPI {
             return cached;
         }
 
+        const signal = this._newSignal();
+
         // Retry mechanism
         for (let i = 0; i < retries; i++) {
             try {
-                let response = await fetch(`posts/${slug}${lang === 'en' ? '.en' : ''}.md`);
+                let response = await fetch(`posts/${slug}${lang === 'en' ? '.en' : ''}.md`, { signal });
 
                 // Fallback to default .md if .en.md is missing
                 if (!response.ok && lang === 'en') {
-                    response = await fetch(`posts/${slug}.md`);
+                    response = await fetch(`posts/${slug}.md`, { signal });
                 }
 
                 if (!response.ok) {
@@ -92,7 +109,10 @@ export class PostsAPI {
                     throw new Error('Markdown парсер не загружен');
                 }
 
-                const html = marked.parse(markdown);
+                let html = marked.parse(markdown);
+
+                // Add lazy loading to images
+                html = html.replace(/<img /g, '<img loading="lazy" ');
 
                 // Cache the result with language suffix
                 this.cache.set(cacheKey, html);

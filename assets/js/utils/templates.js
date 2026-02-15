@@ -34,7 +34,7 @@ export function renderPostCard(post, index = 0) {
 
 
     return `
-        <article class="post-card" data-slug="${post.slug}" style="animation-delay: ${index * CONFIG.ANIMATION_DELAY_INCREMENT}ms">
+        <article class="post-card" data-slug="${post.slug}" tabindex="0" role="link" style="animation-delay: ${index * CONFIG.ANIMATION_DELAY_INCREMENT}ms">
             ${previewHTML}
             <div class="post-card-content">
                 <h2 class="post-card-title">${escapeHtml(post.title)}</h2>
