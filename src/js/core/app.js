@@ -182,10 +182,11 @@ class Blog {
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Focus management for accessibility
+            // Focus management for accessibility (no visible outline)
             const heading = this.app.querySelector('h1, h2');
             if (heading) {
                 heading.setAttribute('tabindex', '-1');
+                heading.style.outline = 'none';
                 heading.focus({ preventScroll: true });
             }
         });
