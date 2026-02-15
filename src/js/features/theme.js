@@ -4,14 +4,13 @@
 
 import { CONFIG } from '../core/config.js';
 
-const THEME_CYCLE = ['dark', 'reading', 'light'];
-
 /**
- * Manages light/dark/reading theme switching
+ * Manages light/dark theme and reading mode
  */
 export class ThemeManager {
     constructor() {
         this.toggleButton = document.querySelector('.theme-toggle');
+        this.readingButton = document.querySelector('.reading-toggle');
     }
 
     /**
@@ -19,10 +18,15 @@ export class ThemeManager {
      */
     init() {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme && THEME_CYCLE.includes(savedTheme)) {
+        if (savedTheme === 'light' || savedTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', savedTheme);
         } else {
             document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        const readingMode = localStorage.getItem('reading-mode');
+        if (readingMode === 'on') {
+            document.documentElement.setAttribute('data-reading', 'on');
         }
     }
 
@@ -30,18 +34,20 @@ export class ThemeManager {
      * Setup theme toggle button listener
      */
     setupToggle() {
-        if (!this.toggleButton) return;
-
-        this.toggleButton.addEventListener('click', () => this.toggle());
+        if (this.toggleButton) {
+            this.toggleButton.addEventListener('click', () => this.toggle());
+        }
+        if (this.readingButton) {
+            this.readingButton.addEventListener('click', () => this.toggleReading());
+        }
     }
 
     /**
-     * Cycle through themes: dark → reading → light → dark
+     * Toggle between light and dark themes
      */
     toggle() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-        const currentIndex = THEME_CYCLE.indexOf(currentTheme);
-        const newTheme = THEME_CYCLE[(currentIndex + 1) % THEME_CYCLE.length];
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
@@ -50,22 +56,35 @@ export class ThemeManager {
     }
 
     /**
+     * Toggle reading mode on/off
+     */
+    toggleReading() {
+        const isOn = document.documentElement.getAttribute('data-reading') === 'on';
+        if (isOn) {
+            document.documentElement.removeAttribute('data-reading');
+            localStorage.removeItem('reading-mode');
+        } else {
+            document.documentElement.setAttribute('data-reading', 'on');
+            localStorage.setItem('reading-mode', 'on');
+        }
+    }
+
+    /**
      * Update meta theme-color for browser UI
-     * @param {string} theme
+     * @param {string} theme - 'light' or 'dark'
      */
     updateMetaThemeColor(theme) {
         const metaThemeColor = document.querySelector('meta[name="theme-color"]');
         if (metaThemeColor) {
-            const colors = { dark: '#1a1a1a', reading: '#1e1e1c', light: '#ffffff' };
-            metaThemeColor.setAttribute('content', colors[theme] || '#1a1a1a');
+            metaThemeColor.setAttribute('content', theme === 'dark' ? '#1a1a1a' : '#ffffff');
         }
     }
 
     /**
      * Get current theme
-     * @returns {string} Current theme
+     * @returns {string} Current theme ('light' or 'dark')
      */
     getCurrentTheme() {
-        return document.documentElement.getAttribute('data-theme') || 'dark';
+        return document.documentElement.getAttribute('data-theme') || 'light';
     }
 }

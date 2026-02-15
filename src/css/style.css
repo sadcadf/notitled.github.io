@@ -149,41 +149,23 @@ body {
 }
 
 .sun-icon,
-.moon-icon,
-.reading-icon {
+.moon-icon {
     transition: transform var(--transition-base);
 }
 
-.reading-icon {
+/* Hide sun icon in dark theme */
+[data-theme="dark"] .sun-icon {
     display: none;
 }
 
-/* Dark: show moon */
-[data-theme="dark"] .sun-icon,
-[data-theme="dark"] .reading-icon {
+/* Hide moon icon in light theme */
+[data-theme="light"] .moon-icon {
     display: none;
 }
 
-/* Light: show sun */
-[data-theme="light"] .moon-icon,
-[data-theme="light"] .reading-icon {
-    display: none;
-}
-
-/* Reading: show book */
-[data-theme="reading"] .sun-icon,
-[data-theme="reading"] .moon-icon {
-    display: none;
-}
-
-[data-theme="reading"] .reading-icon {
-    display: block;
-}
-
-/* Auto dark mode */
+/* Auto dark mode - hide sun, show moon */
 @media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) .sun-icon,
-    :root:not([data-theme]) .reading-icon {
+    :root:not([data-theme]) .sun-icon {
         display: none;
     }
 
@@ -192,16 +174,44 @@ body {
     }
 }
 
-/* Auto light mode */
+/* Auto light mode - hide moon, show sun */
 @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) .moon-icon,
-    :root:not([data-theme]) .reading-icon {
+    :root:not([data-theme]) .moon-icon {
         display: none;
     }
 
     :root:not([data-theme]) .sun-icon {
         display: block;
     }
+}
+
+/* Reading toggle button */
+.reading-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.reading-toggle:hover {
+    background-color: var(--bg-hover);
+    transform: scale(1.05);
+}
+
+.reading-toggle:active {
+    transform: scale(0.95);
+}
+
+[data-reading="on"] .reading-toggle {
+    color: #c9a55a;
+    background-color: var(--bg-hover);
 }
 
 /* Search Bar */
