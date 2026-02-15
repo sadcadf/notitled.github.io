@@ -24,9 +24,9 @@ export const BLOG_INFO = {
 };
 
 export const CONTACTS = {
-    email: 'your.email@example.com',
-    telegram: '@yourusername',
-    github: 'yourusername',
-    twitter: '@yourusername',
-    linkedin: 'yourusername'
+    email: '',
+    telegram: '@NotitledOG',
+    github: 'Notitled',
+    twitter: '',
+    linkedin: ''
 };

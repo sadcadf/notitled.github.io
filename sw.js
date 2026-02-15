@@ -1,4 +1,4 @@
-const CACHE_NAME = 'notitled-v8';
+const CACHE_NAME = 'notitled-v9';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -14,9 +14,11 @@ const urlsToCache = [
     '/assets/js/utils/utils.js',
     '/assets/js/utils/templates.js',
     '/assets/js/services/api.js',
+    '/assets/js/services/cache.js',
     '/assets/js/services/seo.js',
     '/assets/js/features/theme.js',
-    '/assets/js/features/tags.js',
+    '/assets/js/features/language.js',
+    '/assets/js/features/share.js',
     '/assets/js/features/pagination.js',
     '/assets/js/features/toc.js',
     '/assets/js/vendor/marked.min.js',

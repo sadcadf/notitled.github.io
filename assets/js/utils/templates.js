@@ -181,7 +181,7 @@ export function renderSearchPage() {
  */
 export function renderSearchResults(results = [], query) {
     if (!query.trim()) {
-        return '<p class="search-hint">Введите запрос для поиска по заголовкам и описаниям постов</p>';
+        return `<p class="search-hint">${i18n.t('search.hint')}</p>`;
     }
 
     if (results.length === 0) {
@@ -208,44 +208,23 @@ export function renderSearchResults(results = [], query) {
  * @returns {string} HTML string
  */
 export function renderContactsPage() {
-    return `
-        <div class="contacts-page">
+    const items = [
+        { label: 'Email', value: CONTACTS.email, href: `mailto:${CONTACTS.email}`, text: CONTACTS.email },
+        { label: 'Telegram', value: CONTACTS.telegram, href: `https://t.me/${(CONTACTS.telegram || '').replace('@', '')}`, text: CONTACTS.telegram },
+        { label: 'GitHub', value: CONTACTS.github, href: `https://github.com/${CONTACTS.github}`, text: `github.com/${CONTACTS.github}` },
+        { label: 'Twitter / X', value: CONTACTS.twitter, href: `https://twitter.com/${(CONTACTS.twitter || '').replace('@', '')}`, text: CONTACTS.twitter },
+        { label: 'LinkedIn', value: CONTACTS.linkedin, href: `https://linkedin.com/in/${CONTACTS.linkedin}`, text: `linkedin.com/in/${CONTACTS.linkedin}` }
+    ].filter(item => item.value && item.value !== '');
+
+    const contactsHTML = items.map(item => `
             <div class="contact-item">
-                <label>Email</label>
+                <label>${item.label}</label>
                 <div class="contact-value">
-                    <a href="mailto:${CONTACTS.email}">${CONTACTS.email}</a>
+                    <a href="${item.href}" target="_blank" rel="noopener">${item.text}</a>
                 </div>
-            </div>
-            
-            <div class="contact-item">
-                <label>Telegram</label>
-                <div class="contact-value">
-                    <a href="https://t.me/${CONTACTS.telegram.replace('@', '')}" target="_blank" rel="noopener">${CONTACTS.telegram}</a>
-                </div>
-            </div>
-            
-            <div class="contact-item">
-                <label>GitHub</label>
-                <div class="contact-value">
-                    <a href="https://github.com/${CONTACTS.github}" target="_blank" rel="noopener">github.com/${CONTACTS.github}</a>
-                </div>
-            </div>
-            
-            <div class="contact-item">
-                <label>Twitter / X</label>
-                <div class="contact-value">
-                    <a href="https://twitter.com/${CONTACTS.twitter.replace('@', '')}" target="_blank" rel="noopener">${CONTACTS.twitter}</a>
-                </div>
-            </div>
-            
-            <div class="contact-item">
-                <label>LinkedIn</label>
-                <div class="contact-value">
-                    <a href="https://linkedin.com/in/${CONTACTS.linkedin}" target="_blank" rel="noopener">linkedin.com/in/${CONTACTS.linkedin}</a>
-                </div>
-            </div>
-        </div>
-    `;
+            </div>`).join('');
+
+    return `<div class="contacts-page">${contactsHTML}</div>`;
 }
 
 /**
