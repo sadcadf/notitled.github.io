@@ -1130,36 +1130,49 @@ body {
         --spacing-2xl: 2.5rem;
     }
 
-    .post-header {
-        flex-direction: column;
-        gap: var(--spacing-md);
-    }
-
-    .post-header-side {
-        align-items: flex-start;
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .post-header-side .post-tags {
-        justify-content: flex-start;
-    }
-
+    /* Header: logo + nav inline, toggles stay right */
     .header-content {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        gap: var(--spacing-xs);
     }
 
     .nav {
-        order: 3;
-        width: 100%;
-        justify-content: center;
+        order: 0;
+        width: auto;
+        gap: var(--spacing-sm);
     }
 
     .nav-link {
-        flex: 1;
-        text-align: center;
+        font-size: var(--font-size-sm);
+        padding: 6px 10px;
+    }
+
+    .logo {
+        font-size: 1.25rem;
+    }
+
+    /* Post header: share button inline with date */
+    .post-header {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .post-header-side {
+        position: absolute;
+        right: 0;
+        top: 0;
+        min-width: auto;
+        padding-top: 0;
+    }
+
+    .post-header-main {
+        position: relative;
+    }
+
+    .post-header-actions {
+        position: absolute;
+        right: 0;
+        top: 0.5rem;
     }
 
     .search-container {
@@ -1169,8 +1182,6 @@ body {
     .post-card-preview {
         height: 240px;
     }
-
-
 
     .pagination {
         flex-wrap: wrap;
