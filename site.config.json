@@ -1,8 +1,8 @@
 {
-    "_note": "Build scripts only. Source of truth: assets/js/core/config.js",
+    "_note": "Build scripts only. Source of truth: src/js/core/config.js",
     "name": "Notitled",
     "title": "Notitled - Личный блог",
-    "url": "https://notitled.github.io",
+    "url": "https://notitled.com",
     "description": "Личный минималистичный блог о технологиях, разработке и творчестве",
     "language": "ru-RU",
     "author": "Notitled",

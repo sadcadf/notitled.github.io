@@ -17,7 +17,7 @@ export const CONFIG = {
 export const BLOG_INFO = {
     name: 'Notitled',
     title: 'Notitled - Личный блог',
-    url: 'https://notitled.github.io',
+    url: 'https://notitled.com',
     description: 'Личный минималистичный блог о технологиях, разработке и творчестве',
     language: 'ru-RU',
     author: 'Notitled'

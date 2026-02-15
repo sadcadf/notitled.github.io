@@ -3,7 +3,7 @@
 // ============================================
 
 import { BLOG_INFO } from '../core/config.js';
-import { i18n } from '../features/language.js';
+import { t } from '../utils/translations.js';
 
 /**
  * Manages social sharing functionality
@@ -47,9 +47,7 @@ export class ShareManager {
      * @returns {string} Shareable URL
      */
     getShareUrl(slug) {
-        const lang = i18n.getLanguage();
-        const suffix = lang === 'en' ? '.en' : '';
-        return `${BLOG_INFO.url}/posts/${slug}${suffix}.html`;
+        return `${BLOG_INFO.url}/posts/${slug}.html`;
     }
 
     /**
@@ -130,29 +128,29 @@ export class ShareManager {
         const popup = document.createElement('div');
         popup.className = 'share-popup';
         popup.innerHTML = `
-            <button class="share-popup-close" aria-label="${i18n.t('common.close')}">×</button>
+            <button class="share-popup-close" aria-label="${t('common.close')}">×</button>
             <div class="share-popup-options">
-                <button class="share-option" data-action="telegram" aria-label="${i18n.t('share.telegram')}">
+                <button class="share-option" data-action="telegram" aria-label="${t('share.telegram')}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                     </svg>
-                    <span>${i18n.t('share.telegram')}</span>
+                    <span>${t('share.telegram')}</span>
                 </button>
-                <button class="share-option" data-action="twitter" aria-label="${i18n.t('share.twitter')}">
+                <button class="share-option" data-action="twitter" aria-label="${t('share.twitter')}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
-                    <span>${i18n.t('share.twitter')}</span>
+                    <span>${t('share.twitter')}</span>
                 </button>
-                <button class="share-option" data-action="copy" aria-label="${i18n.t('share.copy')}">
+                <button class="share-option" data-action="copy" aria-label="${t('share.copy')}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                     </svg>
-                    <span>${i18n.t('common.copy')}</span>
+                    <span>${t('common.copy')}</span>
                 </button>
                 ${this.hasNativeShare() ? `
-                <button class="share-option" data-action="native" aria-label="${i18n.t('share.more')}">
+                <button class="share-option" data-action="native" aria-label="${t('share.more')}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="18" cy="5" r="3"/>
                         <circle cx="6" cy="12" r="3"/>
@@ -160,7 +158,7 @@ export class ShareManager {
                         <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
                         <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                     </svg>
-                    <span>${i18n.t('common.more')}</span>
+                    <span>${t('common.more')}</span>
                 </button>
                 ` : ''}
             </div>
@@ -259,7 +257,7 @@ export class ShareManager {
     async copyToClipboard(text) {
         try {
             await navigator.clipboard.writeText(text);
-            this.showToast(i18n.t('share.copied'));
+            this.showToast(t('share.copied'));
         } catch (err) {
             // Fallback for older browsers
             const textarea = document.createElement('textarea');
@@ -270,7 +268,7 @@ export class ShareManager {
             textarea.select();
             document.execCommand('copy');
             document.body.removeChild(textarea);
-            this.showToast(i18n.t('share.copied'));
+            this.showToast(t('share.copied'));
         }
     }
 

@@ -5,7 +5,7 @@
 import { CONFIG } from '../core/config.js';
 import { CacheManager } from './cache.js';
 import { calculateReadTime, sleep } from '../utils/utils.js';
-import { i18n } from '../features/language.js';
+import { t } from '../utils/translations.js';
 
 /**
  * Handles loading posts and markdown content
@@ -38,22 +38,10 @@ export class PostsAPI {
     async loadPosts() {
         try {
             const signal = this._newSignal();
-            const lang = i18n.getLanguage();
-            const filename = lang === 'en' ? 'index.en.json' : 'index.json';
-            const response = await fetch(`posts/${filename}`, { signal });
+            const response = await fetch('posts/index.json', { signal });
 
             if (!response.ok) {
-                // Fallback to default index if localized version is missing
-                if (lang !== 'ru') {
-                    const fallbackResponse = await fetch('posts/index.json', { signal });
-                    if (fallbackResponse.ok) {
-                        this.allPosts = await fallbackResponse.json();
-                        this.posts = [...this.allPosts];
-                        this.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        return this.posts;
-                    }
-                }
-                throw new Error(i18n.t('error.fetchPosts') || 'Не удалось загрузить список постов');
+                throw new Error(t('error.fetchPosts'));
             }
 
             this.allPosts = await response.json();
@@ -78,9 +66,7 @@ export class PostsAPI {
      * @returns {Promise<string>} Parsed HTML content
      */
     async loadPost(slug, retries = CONFIG.MAX_RETRIES) {
-        const lang = i18n.getLanguage();
-        const cacheKey = `${slug}_${lang}`;
-        const cached = this.cache.get(cacheKey);
+        const cached = this.cache.get(slug);
         if (cached) {
             return cached;
         }
@@ -90,12 +76,7 @@ export class PostsAPI {
         // Retry mechanism
         for (let i = 0; i < retries; i++) {
             try {
-                let response = await fetch(`posts/${slug}${lang === 'en' ? '.en' : ''}.md`, { signal });
-
-                // Fallback to default .md if .en.md is missing
-                if (!response.ok && lang === 'en') {
-                    response = await fetch(`posts/${slug}.md`, { signal });
-                }
+                const response = await fetch(`posts/${slug}.md`, { signal });
 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
@@ -114,8 +95,8 @@ export class PostsAPI {
                 // Add lazy loading to images
                 html = html.replace(/<img /g, '<img loading="lazy" ');
 
-                // Cache the result with language suffix
-                this.cache.set(cacheKey, html);
+                // Cache the result
+                this.cache.set(slug, html);
 
                 return html;
             } catch (error) {
@@ -144,12 +125,12 @@ export class PostsAPI {
     getErrorHTML(message) {
         return `
             <div class="error-state">
-                <h2>😔 ${i18n.t('post.notFound') || 'Пост не найден'}</h2>
-                <p>${i18n.t('post.notAvailable') || 'К сожалению, этот пост недоступен.'}</p>
+                <h2>😔 ${t('post.notFound')}</h2>
+                <p>${t('post.notAvailable')}</p>
                 <p style="font-size: 0.875rem; color: var(--text-tertiary); margin-top: 1rem;">
-                    ${i18n.t('common.error') || 'Ошибка'}: ${message}
+                    ${t('common.error')}: ${message}
                 </p>
-                <a href="#" class="back-button">${i18n.t('nav.home') || 'Вернуться на главную'}</a>
+                <a href="#" class="back-button">${t('nav.home')}</a>
             </div>
         `;
     }

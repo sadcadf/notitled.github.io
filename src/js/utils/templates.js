@@ -4,7 +4,7 @@
 
 import { CONFIG, CONTACTS } from '../core/config.js';
 import { formatDate, escapeHtml } from './utils.js';
-import { i18n } from '../features/language.js';
+import { t } from './translations.js';
 
 
 /**
@@ -41,7 +41,7 @@ export function renderPostCard(post, index = 0) {
                 <div class="post-card-date">${formatDate(post.date)}</div>
                 <p class="post-card-excerpt">${escapeHtml(post.excerpt)}</p>
                 <div class="post-card-meta">
-                    <span class="post-card-read-more">${i18n.t('post.readMore')}</span>
+                    <span class="post-card-read-more">${t('post.readMore')}</span>
                 </div>
             </div>
         </article>
@@ -58,8 +58,8 @@ export function renderPostsList(posts, pagination = null) {
     if (posts.length === 0) {
         return `
             <div class="empty-state">
-                <h2>${i18n.t('post.noPosts')}</h2>
-                <p>${i18n.t('post.addFirst')} <code>posts/</code></p>
+                <h2>${t('post.noPosts')}</h2>
+                <p>${t('post.addFirst')} <code>posts/</code></p>
             </div>
         `;
     }
@@ -91,15 +91,15 @@ export function renderPagination(pagination) {
     }
 
     return `
-        <nav class="pagination" aria-label="${i18n.t('pagination.label')}">
+        <nav class="pagination" aria-label="${t('pagination.label')}">
             <button class="pagination-btn pagination-prev" ${!hasPrev ? 'disabled' : ''} data-page="${currentPage - 1}">
-                ← ${i18n.t('pagination.prev')}
+                ← ${t('pagination.prev')}
             </button>
             <div class="pagination-pages">
                 ${pagesHTML}
             </div>
             <button class="pagination-btn pagination-next" ${!hasNext ? 'disabled' : ''} data-page="${currentPage + 1}">
-                ${i18n.t('pagination.next')} →
+                ${t('pagination.next')} →
             </button>
         </nav>
     `;
@@ -117,15 +117,15 @@ export function renderPost(post, content, readTime, tocHTML = '') {
 
     return `
         <article class="post-view">
-            <a href="#" class="back-button">${i18n.t('post.back')}</a>
+            <a href="#" class="back-button">${t('post.back')}</a>
             <header class="post-header">
                 <div class="post-header-main">
                     <h1 class="post-title">${escapeHtml(post.title)}</h1>
-                    <div class="post-date">${formatDate(post.date)} • ${readTime} ${i18n.t('post.readTime')}</div>
+                    <div class="post-date">${formatDate(post.date)} • ${readTime} ${t('post.readTime')}</div>
                 </div>
                 <div class="post-header-side">
                     <div class="post-header-actions">
-                        <button class="share-button" data-slug="${post.slug}" data-title="${escapeHtml(post.title)}" data-excerpt="${escapeHtml(post.excerpt)}" aria-label="${i18n.t('post.share')}">
+                        <button class="share-button" data-slug="${post.slug}" data-title="${escapeHtml(post.title)}" data-excerpt="${escapeHtml(post.excerpt)}" aria-label="${t('post.share')}">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="18" cy="5" r="3"/>
                                 <circle cx="6" cy="12" r="3"/>
@@ -133,7 +133,7 @@ export function renderPost(post, content, readTime, tocHTML = '') {
                                 <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
                                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                             </svg>
-                            <span>${i18n.t('post.share')}</span>
+                            <span>${t('post.share')}</span>
                         </button>
                     </div>
                 </div>
@@ -158,7 +158,7 @@ export function renderSearchPage() {
                 <input type="search" 
                        class="search-input" 
                        id="search-page-input" 
-                       placeholder="${i18n.t('search.placeholder')}" 
+                       placeholder="${t('search.placeholder')}" 
                        autocomplete="off" 
                        autofocus>
                 <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
@@ -167,7 +167,7 @@ export function renderSearchPage() {
             </div>
             
             <div id="search-results" class="search-results">
-                <p class="search-hint">${i18n.t('search.hint')}</p>
+                <p class="search-hint">${t('search.hint')}</p>
             </div>
         </div>
     `;
@@ -181,14 +181,14 @@ export function renderSearchPage() {
  */
 export function renderSearchResults(results = [], query) {
     if (!query.trim()) {
-        return `<p class="search-hint">${i18n.t('search.hint')}</p>`;
+        return `<p class="search-hint">${t('search.hint')}</p>`;
     }
 
     if (results.length === 0) {
         return `
             <div class="empty-state">
-                <h2>🔍 ${i18n.t('search.empty')}</h2>
-                <p>${i18n.t('search.emptyTip')}</p>
+                <h2>🔍 ${t('search.empty')}</h2>
+                <p>${t('search.emptyTip')}</p>
             </div>
         `;
     }
@@ -196,7 +196,7 @@ export function renderSearchResults(results = [], query) {
     const postsHTML = results.map((post, index) => renderPostCard(post, index)).join('');
 
     return `
-        <p class="search-count">${i18n.t('search.countPrefix')} ${results.length}</p>
+        <p class="search-count">${t('search.countPrefix')} ${results.length}</p>
         <div class="posts-grid">
             ${postsHTML}
         </div>
@@ -232,5 +232,5 @@ export function renderContactsPage() {
  * @returns {string} HTML string
  */
 export function renderError() {
-    return `<div class="error">${i18n.t('post.notFound')}</div>`;
+    return `<div class="error">${t('post.notFound')}</div>`;
 }

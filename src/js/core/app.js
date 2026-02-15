@@ -11,7 +11,7 @@ import { SEOManager } from '../services/seo.js';
 import { Paginator } from '../features/pagination.js';
 import { TOCGenerator } from '../features/toc.js';
 import { ShareManager } from '../features/share.js';
-import { i18n } from '../features/language.js';
+import { t } from '../utils/translations.js';
 import {
     renderPostsList,
     renderPost,
@@ -65,7 +65,6 @@ class Blog {
 
         // Setup UI
         this.updateStaticTranslations();
-        this.setupLanguageToggle();
 
         // Load posts
         await this.api.loadPosts();
@@ -101,37 +100,9 @@ class Blog {
         elements.forEach(el => {
             const key = el.getAttribute('data-t');
             if (key) {
-                el.textContent = i18n.t(key);
+                el.textContent = t(key);
             }
         });
-
-        // Update language toggle text
-        const langToggleText = document.querySelector('.lang-text');
-        if (langToggleText) {
-            const lang = i18n.getLanguage();
-            langToggleText.textContent = lang === 'ru' ? 'РУ' : 'EN';
-        }
-
-        // Update footer
-        const footerText = document.querySelector('.footer p');
-        if (footerText) {
-            const currentYear = new Date().getFullYear();
-            footerText.innerHTML = i18n.getLanguage() === 'ru'
-                ? `&copy; ${currentYear} Notitled.`
-                : `&copy; ${currentYear} Notitled.`;
-        }
-    }
-
-    /**
-     * Setup language toggle listener
-     */
-    setupLanguageToggle() {
-        const langToggle = document.getElementById('lang-toggle');
-        if (langToggle) {
-            langToggle.addEventListener('click', () => {
-                i18n.toggleLanguage();
-            });
-        }
     }
 
     /**
