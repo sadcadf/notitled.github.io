@@ -1130,49 +1130,36 @@ body {
         --spacing-2xl: 2.5rem;
     }
 
-    /* Header: keep everything on one line */
-    .header-content {
-        flex-wrap: nowrap;
-        gap: var(--spacing-xs);
-    }
-
-    .logo {
-        font-size: 1.1rem;
-        margin-right: auto;
-    }
-
-    .nav {
-        order: 0;
-        width: auto;
-        gap: 2px;
-    }
-
-    .nav-link {
-        font-size: 0.8rem;
-        padding: 5px 8px;
-    }
-
-    .header-actions {
-        gap: 4px;
-    }
-
-    .theme-toggle,
-    .reading-toggle {
-        width: 34px;
-        height: 34px;
-    }
-
-    /* Post header: share inline with title */
     .post-header {
-        position: relative;
+        flex-direction: column;
+        gap: var(--spacing-md);
     }
 
     .post-header-side {
-        position: absolute;
-        right: 0;
-        top: 0;
-        min-width: auto;
-        padding-top: 0.2rem;
+        align-items: flex-start;
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .post-header-side .post-tags {
+        justify-content: flex-start;
+    }
+
+    .header-content {
+        flex-wrap: wrap;
+    }
+
+    .nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav-link {
+        flex: 1;
+        text-align: center;
     }
 
     .search-container {
@@ -1182,6 +1169,8 @@ body {
     .post-card-preview {
         height: 240px;
     }
+
+
 
     .pagination {
         flex-wrap: wrap;
