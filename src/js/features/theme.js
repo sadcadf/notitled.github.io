@@ -4,8 +4,10 @@
 
 import { CONFIG } from '../core/config.js';
 
+const THEME_CYCLE = ['dark', 'reading', 'light'];
+
 /**
- * Manages light/dark theme switching
+ * Manages light/dark/reading theme switching
  */
 export class ThemeManager {
     constructor() {
@@ -17,10 +19,9 @@ export class ThemeManager {
      */
     init() {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
+        if (savedTheme && THEME_CYCLE.includes(savedTheme)) {
             document.documentElement.setAttribute('data-theme', savedTheme);
         } else {
-            // Default to dark theme
             document.documentElement.setAttribute('data-theme', 'dark');
         }
     }
@@ -35,11 +36,12 @@ export class ThemeManager {
     }
 
     /**
-     * Toggle between light and dark themes
+     * Cycle through themes: dark → reading → light → dark
      */
     toggle() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const currentIndex = THEME_CYCLE.indexOf(currentTheme);
+        const newTheme = THEME_CYCLE[(currentIndex + 1) % THEME_CYCLE.length];
 
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
@@ -49,20 +51,21 @@ export class ThemeManager {
 
     /**
      * Update meta theme-color for browser UI
-     * @param {string} theme - 'light' or 'dark'
+     * @param {string} theme
      */
     updateMetaThemeColor(theme) {
         const metaThemeColor = document.querySelector('meta[name="theme-color"]');
         if (metaThemeColor) {
-            metaThemeColor.setAttribute('content', theme === 'dark' ? '#1a1a1a' : '#ffffff');
+            const colors = { dark: '#1a1a1a', reading: '#1e1e1c', light: '#ffffff' };
+            metaThemeColor.setAttribute('content', colors[theme] || '#1a1a1a');
         }
     }
 
     /**
      * Get current theme
-     * @returns {string} Current theme ('light' or 'dark')
+     * @returns {string} Current theme
      */
     getCurrentTheme() {
-        return document.documentElement.getAttribute('data-theme') || 'light';
+        return document.documentElement.getAttribute('data-theme') || 'dark';
     }
 }

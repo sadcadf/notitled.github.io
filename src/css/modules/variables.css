@@ -100,6 +100,19 @@
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
+[data-theme="reading"] {
+    --bg-primary: #1e1e1c;
+    --bg-secondary: #2a2925;
+    --bg-hover: #353530;
+    --text-primary: #d4cfc4;
+    --text-secondary: #9e9a8f;
+    --text-tertiary: #6b6860;
+    --border-color: #3d3b35;
+    --accent-color: #c9a55a;
+    --accent-hover: #d4b76a;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
 [data-theme="light"] {
     --bg-primary: #ffffff;
     --bg-secondary: #fafafa;

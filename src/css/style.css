@@ -149,23 +149,41 @@ body {
 }
 
 .sun-icon,
-.moon-icon {
+.moon-icon,
+.reading-icon {
     transition: transform var(--transition-base);
 }
 
-/* Hide sun icon in dark theme */
-[data-theme="dark"] .sun-icon {
+.reading-icon {
     display: none;
 }
 
-/* Hide moon icon in light theme */
-[data-theme="light"] .moon-icon {
+/* Dark: show moon */
+[data-theme="dark"] .sun-icon,
+[data-theme="dark"] .reading-icon {
     display: none;
 }
 
-/* Auto dark mode - hide sun, show moon */
+/* Light: show sun */
+[data-theme="light"] .moon-icon,
+[data-theme="light"] .reading-icon {
+    display: none;
+}
+
+/* Reading: show book */
+[data-theme="reading"] .sun-icon,
+[data-theme="reading"] .moon-icon {
+    display: none;
+}
+
+[data-theme="reading"] .reading-icon {
+    display: block;
+}
+
+/* Auto dark mode */
 @media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) .sun-icon {
+    :root:not([data-theme]) .sun-icon,
+    :root:not([data-theme]) .reading-icon {
         display: none;
     }
 
@@ -174,9 +192,10 @@ body {
     }
 }
 
-/* Auto light mode - hide moon, show sun */
+/* Auto light mode */
 @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) .moon-icon {
+    :root:not([data-theme]) .moon-icon,
+    :root:not([data-theme]) .reading-icon {
         display: none;
     }
 
