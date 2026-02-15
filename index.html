@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
-
     <!-- SEO Meta Tags -->
     <meta name="description" content="Notitled - личный минималистичный блог о технологиях, разработке и творчестве">
     <meta name="keywords" content="блог, технологии, разработка, минимализм, веб-разработка, программирование">
@@ -15,14 +12,14 @@
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://notitled.github.io/">
+    <link rel="canonical" href="https://notitled.com/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://notitled.github.io/">
+    <meta property="og:url" content="https://notitled.com/">
     <meta property="og:title" content="101">
     <meta property="og:description" content="love tech.">
-    <meta property="og:image" content="https://notitled.github.io/assets/images/og-image.png">
+    <meta property="og:image" content="https://notitled.com/assets/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Notitled">
@@ -30,17 +27,17 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://notitled.github.io/">
+    <meta name="twitter:url" content="https://notitled.com/">
     <meta name="twitter:title" content="101">
     <meta name="twitter:description" content="love tech.">
-    <meta name="twitter:image" content="https://notitled.github.io/assets/images/og-image.png">
+    <meta name="twitter:image" content="https://notitled.com/assets/images/og-image.png">
     <meta name="twitter:creator" content="@yourusername">
 
     <title>Notitled</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 
     <!-- RSS Feed -->
     <link rel="alternate" type="application/rss+xml" title="Notitled RSS Feed" href="/feed.xml">
@@ -54,35 +51,25 @@
     {
       "@context": "https://schema.org",
       "@type": "Blog",
-      "@id": "https://notitled.github.io/#blog",
-      "url": "https://notitled.github.io",
+      "@id": "https://notitled.com/#blog",
+      "url": "https://notitled.com",
       "name": "Notitled",
       "description": "Личный минималистичный блог о технологиях, разработке и творчестве",
       "inLanguage": "ru-RU",
       "author": {
         "@type": "Person",
-        "name": "Your Name",
-        "url": "https://notitled.github.io"
+        "name": "Notitled",
+        "url": "https://notitled.com"
       },
       "publisher": {
         "@type": "Person",
-        "name": "Your Name"
+        "name": "Notitled"
       }
     }
     </script>
 
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap&subset=cyrillic"
-        media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap&subset=cyrillic"></noscript>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="assets/css/style.css">
-
     <!-- Plausible Analytics (Privacy-friendly, no cookies) -->
-    <script defer data-domain="notitled.github.io" src="https://plausible.io/js/script.js"></script>
+    <script defer data-domain="notitled.com" src="https://plausible.io/js/script.js"></script>
 </head>
 
 <body>
@@ -125,16 +112,12 @@
             </div>
         </main>
 
-
-
         <footer class="footer" role="contentinfo">
             <p>&copy; 2026 Notitled.</p>
         </footer>
     </div>
 
-    <script src="assets/js/core/config.js" type="module"></script>
-    <script src="assets/js/vendor/marked.min.js" defer></script>
-    <script type="module" src="assets/js/core/app.js"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

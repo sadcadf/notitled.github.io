@@ -1,17 +1,25 @@
 /**
  * Blog Generator Script
- * Generates feed.xml and sitemap.xml from posts/index.json
- * 
- * Usage: npm run generate
+ * Generates feed.xml, sitemap.xml, and static post HTML pages
+ *
+ * Usage:
+ *   npm run generate              # Output to public/
+ *   node scripts/generate.js --outDir dist  # Output to dist/
  */
 
 const fs = require('fs');
 const path = require('path');
 
+// Parse --outDir argument
+const args = process.argv.slice(2);
+const outDirIndex = args.indexOf('--outDir');
+const outDir = outDirIndex !== -1 && args[outDirIndex + 1]
+    ? path.join(__dirname, '..', args[outDirIndex + 1])
+    : path.join(__dirname, '..', 'public');
+
 // Configuration
 const siteConfig = require('../site.config.json');
 
-// Configuration
 const CONFIG = {
     BLOG_URL: siteConfig.url,
     BLOG_NAME: siteConfig.name,
@@ -20,11 +28,10 @@ const CONFIG = {
     AUTHOR: siteConfig.author
 };
 
-// Paths
-const POSTS_INDEX_RU = path.join(__dirname, '..', 'posts', 'index.json');
-const POSTS_INDEX_EN = path.join(__dirname, '..', 'posts', 'index.en.json');
-const FEED_OUTPUT = path.join(__dirname, '..', 'feed.xml');
-const SITEMAP_OUTPUT = path.join(__dirname, '..', 'sitemap.xml');
+// Paths — always read from public/posts/
+const POSTS_DIR = path.join(__dirname, '..', 'public', 'posts');
+const POSTS_INDEX_RU = path.join(POSTS_DIR, 'index.json');
+const POSTS_INDEX_EN = path.join(POSTS_DIR, 'index.en.json');
 
 /**
  * Read posts from index.json
@@ -47,13 +54,6 @@ function readPosts(lang = 'ru') {
 function formatRSSDate(dateString) {
     const date = new Date(dateString);
     return date.toUTCString();
-}
-
-/**
- * Format date for Sitemap (ISO 8601)
- */
-function formatSitemapDate(dateString) {
-    return dateString; // Already in YYYY-MM-DD format
 }
 
 /**
@@ -87,7 +87,7 @@ function generateRSS(posts) {
         </item>`
     ).join('\n');
 
-    const rss = `<?xml version="1.0" encoding="UTF-8"?>
+    return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>${CONFIG.BLOG_NAME}</title>
@@ -100,8 +100,6 @@ function generateRSS(posts) {
     </channel>
 </rss>
 `;
-
-    return rss;
 }
 
 /**
@@ -112,7 +110,6 @@ function generateSitemap(posts) {
     const sortedPosts = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
     const latestPostDate = sortedPosts.length > 0 ? sortedPosts[0].date : today;
 
-    // Static pages
     const staticUrls = [
         { loc: `${CONFIG.BLOG_URL}/`, lastmod: latestPostDate, changefreq: 'weekly', priority: '1.0' },
         { loc: `${CONFIG.BLOG_URL}/#contacts`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
@@ -120,7 +117,6 @@ function generateSitemap(posts) {
         { loc: `${CONFIG.BLOG_URL}/#tags`, lastmod: latestPostDate, changefreq: 'weekly', priority: '0.8' }
     ];
 
-    // Post URLs
     const postUrls = sortedPosts.map(post => ({
         loc: `${CONFIG.BLOG_URL}/#${post.slug}`,
         lastmod: post.date,
@@ -128,7 +124,6 @@ function generateSitemap(posts) {
         priority: '0.9'
     }));
 
-    // Tag URLs
     const allTags = new Set();
     posts.forEach(post => {
         if (post.tags) {
@@ -154,19 +149,14 @@ function generateSitemap(posts) {
     </url>`
     ).join('');
 
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}
 </urlset>
 `;
-
-    return sitemap;
 }
 
 /**
  * Generate static HTML page for a post (for social media previews)
- * @param {Object} post - Post data
- * @param {string} lang - 'ru' or 'en'
- * @returns {string} HTML content
  */
 function generatePostHTML(post, lang = 'ru') {
     const postUrl = `${CONFIG.BLOG_URL}/#${post.slug}?lang=${lang}`;
@@ -187,17 +177,11 @@ function generatePostHTML(post, lang = 'ru') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
     <title>${escapeXML(post.title)} - ${CONFIG.BLOG_NAME}</title>
     <meta name="description" content="${escapeXML(post.excerpt)}">
     <meta name="author" content="${CONFIG.AUTHOR}">
     <meta name="robots" content="index, follow">
-    
-    <!-- Canonical URL -->
     <link rel="canonical" href="${staticUrl}">
-    
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="${staticUrl}">
     <meta property="og:title" content="${escapeXML(post.title)}">
@@ -210,48 +194,15 @@ function generatePostHTML(post, lang = 'ru') {
     <meta property="article:published_time" content="${post.date}">
     <meta property="article:author" content="${CONFIG.AUTHOR}">
     ${post.tags ? post.tags.map(tag => `<meta property="article:tag" content="${escapeXML(tag)}">`).join('\n    ') : ''}
-    
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="${staticUrl}">
     <meta name="twitter:title" content="${escapeXML(post.title)}">
     <meta name="twitter:description" content="${escapeXML(post.excerpt)}">
     <meta name="twitter:image" content="${ogImage}">
-    
-    <!-- Telegram specific -->
     <meta property="og:image:alt" content="${escapeXML(post.title)}">
-    
-    <!-- Redirect to SPA with language preservation -->
-    <script>
-        window.location.replace('${postUrl}');
-    </script>
-    <noscript>
-        <meta http-equiv="refresh" content="0;url=${postUrl}">
-    </noscript>
-    
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: #1a1a1a;
-            color: #e8e8e8;
-        }
-        .redirect-message {
-            text-align: center;
-            padding: 2rem;
-        }
-        a {
-            color: #3b82f6;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <script>window.location.replace('${postUrl}');</script>
+    <noscript><meta http-equiv="refresh" content="0;url=${postUrl}"></noscript>
+    <style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;background:#1a1a1a;color:#e8e8e8}.redirect-message{text-align:center;padding:2rem}a{color:#3b82f6;text-decoration:none}a:hover{text-decoration:underline}</style>
 </head>
 <body>
     <div class="redirect-message">
@@ -264,49 +215,53 @@ function generatePostHTML(post, lang = 'ru') {
 }
 
 /**
- * Generate static HTML pages for all posts in a specific language
- * @param {Array} posts - Array of posts
- * @param {string} lang - 'ru' or 'en'
+ * Generate static HTML pages for all posts
  */
 function generatePostPages(posts, lang = 'ru') {
-    const postsDir = path.join(__dirname, '..', 'posts');
-    const suffix = lang === 'en' ? '.en' : '';
+    const postsOutputDir = path.join(outDir, 'posts');
+    if (!fs.existsSync(postsOutputDir)) {
+        fs.mkdirSync(postsOutputDir, { recursive: true });
+    }
 
+    const suffix = lang === 'en' ? '.en' : '';
     posts.forEach(post => {
         const html = generatePostHTML(post, lang);
-        const outputPath = path.join(postsDir, `${post.slug}${suffix}.html`);
+        const outputPath = path.join(postsOutputDir, `${post.slug}${suffix}.html`);
         fs.writeFileSync(outputPath, html, 'utf-8');
-        console.log(`✅ Generated: posts/${post.slug}${suffix}.html`);
+        console.log(`  Generated: posts/${post.slug}${suffix}.html`);
     });
 }
 
 /**
- * Main function
+ * Main
  */
 function main() {
-    console.log('📝 Generating blog files...\n');
+    console.log(`Generating blog files to: ${outDir}\n`);
 
-    // Read posts for both languages
     const postsRu = readPosts('ru');
     const postsEn = readPosts('en');
+    console.log(`Found ${postsRu.length} RU posts, ${postsEn.length} EN posts\n`);
 
-    console.log(`Found ${postsRu.length} Russian posts and ${postsEn.length} English posts`);
+    // Ensure output dir exists
+    if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+    }
 
-    // Generate RSS (using RU as default for now, could be split later if needed)
+    // Generate RSS
     const rss = generateRSS(postsRu);
-    fs.writeFileSync(FEED_OUTPUT, rss, 'utf-8');
-    console.log(`✅ Generated: feed.xml`);
+    fs.writeFileSync(path.join(outDir, 'feed.xml'), rss, 'utf-8');
+    console.log('  Generated: feed.xml');
 
-    // Generate Sitemap (combine unique slugs)
+    // Generate Sitemap
     const sitemap = generateSitemap(postsRu);
-    fs.writeFileSync(SITEMAP_OUTPUT, sitemap, 'utf-8');
-    console.log(`✅ Generated: sitemap.xml`);
+    fs.writeFileSync(path.join(outDir, 'sitemap.xml'), sitemap, 'utf-8');
+    console.log('  Generated: sitemap.xml');
 
-    // Generate static HTML pages for both languages
+    // Generate static post pages
     generatePostPages(postsRu, 'ru');
     generatePostPages(postsEn, 'en');
 
-    console.log('\n🎉 Done!');
+    console.log('\nDone!');
 }
 
 main();

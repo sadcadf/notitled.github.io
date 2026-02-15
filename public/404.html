@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Notitled</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: #e8e8e8;
+        }
+        @media (prefers-color-scheme: light) {
+            body { background: #ffffff; color: #1a1a1a; }
+            a { color: #0066ff; }
+        }
+        .page {
+            text-align: center;
+            padding: 2rem;
+        }
+        .code {
+            font-size: 6rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        .message {
+            font-size: 1.25rem;
+            color: #999;
+            margin-bottom: 2rem;
+        }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+        a:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="code">404</div>
+        <p class="message">Страница не найдена</p>
+        <a href="/">На главную</a>
+    </div>
+</body>
+</html>
