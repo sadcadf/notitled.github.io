@@ -286,22 +286,30 @@
 .share-button {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    color: var(--text-secondary);
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--text-tertiary);
     background-color: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
 .share-button:hover {
     color: var(--accent-color);
-    border-color: var(--accent-color);
     background-color: var(--bg-hover);
+}
+
+.share-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+.share-button span {
+    display: none;
 }
 
 .share-popup {
