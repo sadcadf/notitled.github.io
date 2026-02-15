@@ -70,33 +70,6 @@
     gap: var(--spacing-sm);
 }
 
-/* Language Toggle */
-.lang-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    min-width: 44px;
-    padding: 0 var(--spacing-xs);
-    border: none;
-    background-color: var(--bg-secondary);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    font-weight: 700;
-    transition: all var(--transition-fast);
-}
-
-.lang-toggle:hover {
-    background-color: var(--bg-hover);
-    transform: scale(1.05);
-}
-
-.lang-toggle:active {
-    transform: scale(0.95);
-}
-
 /* Search Input */
 .search-container {
     position: relative;

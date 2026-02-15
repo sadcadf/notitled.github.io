@@ -3,7 +3,7 @@
 // ============================================
 
 import { CONFIG } from '../core/config.js';
-import { i18n } from '../features/language.js';
+import { t } from '../utils/translations.js';
 
 /**
  * Generate Table of Contents from HTML content
@@ -62,8 +62,8 @@ export class TOCGenerator {
         `).join('');
 
         return `
-            <nav class="toc" aria-label="${i18n.t('post.toc')}">
-                <h2 class="toc-title">${i18n.t('post.toc')}</h2>
+            <nav class="toc" aria-label="${t('post.toc')}">
+                <h2 class="toc-title">${t('post.toc')}</h2>
                 <ul class="toc-list">
                     ${items}
                 </ul>
